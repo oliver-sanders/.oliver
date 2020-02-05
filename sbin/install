@@ -1,0 +1,31 @@
+#!/bin/bash
+cd "$(dirname "$0")/../"
+
+install-bin () {
+    rsync -r './bin/' "$HOME/bin/"
+}
+
+install-bashrc () {
+    if ! grep '.oliver/conf/bashrc' ~/.bashrc -q ; then
+        echo '. "$HOME/.oliver/conf/bashrc"' >> "$HOME/.bashrc"
+    fi
+}
+
+install-vim () {
+    sbin/install-vim install all
+}
+
+install-all () {
+    install bashrc
+    install bin
+    install vim
+}
+
+install () {
+    for arg in $@; do
+        echo "# install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@

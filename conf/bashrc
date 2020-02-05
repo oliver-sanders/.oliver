@@ -1,0 +1,29 @@
+# Editors
+PAGER=less
+EDITOR=vi
+
+# PATH
+PATH="{$HOME}/bin:${PATH}"
+export PATH
+
+# PS1
+if [[ $- == *i* ]]; then
+    PS1="\[$(tput bold; tput setab 4; tput setaf 7)\][\W] \$\[$(tput sgr 0)\] "
+    export PS1
+fi
+
+# Includes
+includes=(
+    "${HOME}/miniconda3/etc/profile.d/conda.sh" \
+)
+for include in ${includes}; do
+    if [[ -f "${include}" ]]; then
+        . "${include}"
+    fi
+done
+
+# Aliases
+alias cleat=clear
+alias clyc=cylc
+alias ctb="${HOME}/cylc/etc/bin/run-functional-tests.sh"
+alias gut=git

@@ -1,0 +1,62 @@
+#!/bin/bash
+
+. "${HOME}/miniconda3/etc/profile.d/conda.sh"
+
+if [[ $# -ne 1 ]]; then
+    echo 'usage: c8 ENV_NAME'
+    echo
+    echo 'c8: (re)create a conda environment for developing cylc.'
+    exit
+fi
+
+NAME="$1"
+
+# use the conda-forge channels
+conda config --add channels conda-forge
+conda config --set channel_priority strict 
+
+# (re)create and activate the environment
+conda create -n "${NAME}"
+conda activate "${NAME}"
+
+set -eu
+
+CONDA=(\
+    python==3.7
+    pyzmq==18.0.*
+    nodejs
+    configurable-http-proxy
+    pygraphviz
+)
+
+echo '# installing conda packages'
+conda install ${CONDA[@]}
+
+PIP=(\
+    isodatetime
+    cylc-flow
+    cylc-sphinx-extensions
+    cylc-doc
+    cylc-xtriggers
+    cylc-uiserver
+)
+
+echo '# installing pip packages'
+for module in ${PIP[@]}; do
+    module_dir="${HOME}/${module}"
+    if [[ -d "${module_dir}" ]]; then
+        (cd "${module_dir}"; pip install -e .[all])
+    fi
+done
+
+NPM=(\
+    cylc-ui
+)
+
+echo '# installing npm packages'
+for module in ${NPM[@]}; do
+    module_dir="${HOME}/${module}"
+    if [[ -d "${module_dir}" ]]; then
+        (cd "${HOME}/${module}"; npm install)
+    fi
+done

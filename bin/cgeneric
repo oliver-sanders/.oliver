@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -eu
+
+SUITE_DIR="${HOME}/cylc-run/${1:-generic}"
+
+if [[ -d "${SUITE_DIR}" ]]; then
+    rm -r "${SUITE_DIR}"
+fi
+mkdir -p "${SUITE_DIR}"
+cat > "${SUITE_DIR}/suite.rc" <<__HERE__
+[cylc]
+    UTC mode = True
+
+[scheduling]
+    initial cycle point = 2019-12-09T09:00Z
+    [[dependencies]]
+        [[[R1]]]
+            graph = foo_cold => foo_start
+        [[[R1/T00]]]
+            graph = foo_start[^] => FOO
+        [[[T00, T12]]]
+            graph = """
+                cycle_end[-PT12H] => FOO
+                FOO:succeed-all => BAR
+                BAR:succeed-any => wipe_bar
+                BAR:succeed-all & wipe_bar => cycle_end
+            """
+
+[runtime]
+    [[FOO]]
+    [[BAR]]
+    [[foo, foot, fool]]
+        inherit = FOO
+    [[bar, bool, pub]]
+        inherit = BAR
+__HERE__

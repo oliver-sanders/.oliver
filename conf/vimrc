@@ -1,0 +1,61 @@
+set number
+set cursorline
+set cursorcolumn
+"set clipboard+=unnamed
+
+filetype on
+autocmd BufRead,BufNewFile *.vue set filetype=vue
+autocmd BufRead,BufNewFile *suite.rc set filetype=cylc
+
+set expandtab
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd FileType html setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd FileType rst  setlocal shiftwidth=3 softtabstop=3 tabstop=3
+autocmd FileType svg  setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd FileType vue setlocal shiftwidth=2 softtabstop=2 tabstop=2
+autocmd FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2
+
+set foldmethod=syntax
+let javaScript_fold=1
+
+set incsearch
+
+set smartindent
+" set breakindent - might help with manual wordwrap?
+" manual indent via <gq>
+
+" shortcuts
+noremap <F2> :noh<CR>
+noremap <F3> :tabe<CR>:e .<CR>
+noremap <space> za
+
+set tabpagemax=1000
+
+" plugins - Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#rc()
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ajmwagar/vim-deus'
+Plugin 'posva/vim-vue'
+Plugin 'preservim/nerdcommenter'
+
+" plugin:airline
+set noshowmode
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#tab_nr_type = 1
+
+" plugin:deus
+colors deus  " note there is airline-deus integration
+
+" plugin:nerdcommenter
+let g:NERDCustomDelimiters = {'cylc': {'left': '# ', 'leftAlt': '#'}}
+let g:NERDDefaultAlign = 'left'

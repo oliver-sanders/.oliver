@@ -1,0 +1,44 @@
+#!/bin/bash
+cd "$(dirname "$0")/../"
+
+CONDA_DIR="${HOME}/miniconda3/"
+
+download-conda-darwin () {
+    wget \
+        https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh \
+        "$1"
+}
+
+download-conda-linux () {
+    wget \
+        https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+        "$1"
+}
+
+install-conda () {
+    if ! command -v conda >/dev/null; then
+        CONDA_INSTALL="$(mktemp -d)"
+        if [[ "$OSTYPE" == "darwin" ]]; then
+            download-conda-darwin "${CONDA_INSTALL}"
+        elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+            download-conda-linux "${CONDA_INSTALL}"
+        else
+            exit "Cannot install Conda for $OSTYPE"
+        fi
+        # TODO: actually install conda
+        rm -r "${CONDA_INSTALL}"
+    fi
+}
+
+install-all () {
+    install conda
+}
+
+install () {
+    for arg in $@; do
+        echo "# conda: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@
