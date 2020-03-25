@@ -1,0 +1,21 @@
+#!/bin/bash
+cd "$(dirname "$0")/../"
+
+
+install-coreutils () {
+    brew install coreutils
+}
+
+
+install-all () {
+    install coreutils
+}
+
+install () {
+    for arg in $@; do
+        echo "# conda: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@

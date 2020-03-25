@@ -1,10 +1,6 @@
 #!/bin/bash
 cd "$(dirname "$0")/../"
 
-install-bin () {
-    rsync -r './bin/' "$HOME/bin/"
-}
-
 install-bashrc () {
     if ! grep '.oliver/conf/bashrc' ~/.bashrc -q ; then
         echo '. "$HOME/.oliver/conf/bashrc"' >> "$HOME/.bashrc"
@@ -17,7 +13,6 @@ install-vim () {
 
 install-all () {
     install bashrc
-    install bin
     install vim
 }
 

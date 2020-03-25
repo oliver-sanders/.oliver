@@ -3,7 +3,11 @@ PAGER=less
 EDITOR=vi
 
 # PATH
-PATH="{$HOME}/bin:${PATH}"
+PATH="${HOME}/bin:${HOME}/.oliver/bin:${PATH}"
+if [[ "$OSTYPE" == darwin* ]]; then
+    PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
 export PATH
 
 # PS1

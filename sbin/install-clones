@@ -1,0 +1,52 @@
+#!/bin/bash
+cd "$(dirname "$0")/../"
+
+set -eu
+
+
+USER='oliver-sanders'
+
+
+CYLC_REPOS=(\
+    cylc-admin
+    cylc-examples
+    cylc
+    cylc-graphic-design
+    cylc-sphinx-extensions
+    cylc-ui
+    cylc-uiserver
+    cylc-xtriggers
+    isodatetime
+    presentations
+    rose
+)
+
+
+install-cylc () {
+    for repo in "${CYLC_REPOS[@]}"; do
+        install-repo "$repo"
+    done 
+}
+
+
+install-repo() {
+    REPO="$1"
+    INSTALL_DIR="${HOME}/${REPO}"
+    if ! [[ -d "${INSTALL_DIR}" ]]; then
+        git clone "git@github.com:${USER}/${REPO}.git" "${INSTALL_DIR}"
+    fi
+}
+
+
+install-all () {
+    install cylc
+}
+
+install () {
+    for arg in $@; do
+        echo "# conda: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@
