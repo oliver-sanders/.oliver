@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "$0")/../"
 
 set -eu
@@ -22,6 +22,55 @@ CYLC_REPOS=(\
 )
 
 
+UPSTREAMS=(\
+    cylc
+    metomi
+)
+
+
+declare -A USERS
+USERS=(\
+    [mel]=datamel
+    [dave]=dpmatthews
+    [david]=dwsutherland
+    [hillary]=hjoliver
+    [bruno]=kinow
+    [ronnie]=metronnie
+    [tim]=wxtim
+)
+
+
+set-upstream () {
+    REPO="$1"
+    REPO_DIR="${HOME}/${REPO}"
+    if git -C "${REPO_DIR}" remote -v | grep -q upstream; then
+        return  # upstream already set -> skip
+    fi
+    for upstream in "${UPSTREAMS[@]}"; do
+        if curl --fail "https://github.com/${upstream}/${REPO}" >/dev/null 2>&1;
+        then
+            git -C "${REPO_DIR}" remote add \
+                upstream \
+                "git@github.com:${upstream}/${REPO}.git"
+            return
+        fi
+    done
+}
+
+
+set-remotes () {
+    REPO="$1"
+    REPO_DIR="${HOME}/${REPO}"
+    for name in "${!USERS[@]}"; do
+        user="${USERS[$name]}"
+        git -C "${REPO_DIR}" remote remove $name
+        git -C "${REPO_DIR}" remote add \
+            "${name}" \
+            "https://github.com/${user}/${REPO}"
+    done
+}
+
+
 install-cylc () {
     for repo in "${CYLC_REPOS[@]}"; do
         install-repo "$repo"
@@ -31,10 +80,12 @@ install-cylc () {
 
 install-repo() {
     REPO="$1"
-    INSTALL_DIR="${HOME}/${REPO}"
-    if ! [[ -d "${INSTALL_DIR}" ]]; then
-        git clone "git@github.com:${USER}/${REPO}.git" "${INSTALL_DIR}"
+    REPO_DIR="${HOME}/${REPO}"
+    if ! [[ -d "${REPO_DIR}" ]]; then
+        git clone "git@github.com:${USER}/${REPO}.git" "${REPO_DIR}"
     fi
+    set-upstream "${REPO}"
+    set-remotes "${REPO}"
 }
 
 

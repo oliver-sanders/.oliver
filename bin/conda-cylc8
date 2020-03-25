@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 . "${HOME}/miniconda3/etc/profile.d/conda.sh"
 
