@@ -13,6 +13,7 @@ CYLC_REPOS=(\
     cylc
     cylc-graphic-design
     cylc-sphinx-extensions
+    cylc-doc
     cylc-ui
     cylc-uiserver
     cylc-xtriggers
@@ -63,10 +64,11 @@ set-remotes () {
     REPO_DIR="${HOME}/${REPO}"
     for name in "${!USERS[@]}"; do
         user="${USERS[$name]}"
-        git -C "${REPO_DIR}" remote remove $name
         git -C "${REPO_DIR}" remote add \
             "${name}" \
-            "https://github.com/${user}/${REPO}"
+            "https://github.com/${user}/${REPO}" \
+            2>/dev/null \
+            || true
     done
 }
 
@@ -83,6 +85,9 @@ install-repo() {
     REPO_DIR="${HOME}/${REPO}"
     if ! [[ -d "${REPO_DIR}" ]]; then
         git clone "git@github.com:${USER}/${REPO}.git" "${REPO_DIR}"
+    fi
+    if [[ "$REPO" == 'cylc' ]]; then
+        REPO=cylc-flow
     fi
     set-upstream "${REPO}"
     set-remotes "${REPO}"

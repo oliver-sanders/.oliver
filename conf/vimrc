@@ -3,10 +3,13 @@ set cursorline
 set cursorcolumn
 "set clipboard+=unnamed
 
-filetype on
+"filetype plugin indent on
+filetype plugin on
 autocmd BufRead,BufNewFile *.vue set filetype=vue
 autocmd BufRead,BufNewFile *suite.rc set filetype=cylc
 
+syntax on
+set hlsearch
 set expandtab
 set softtabstop=4
 set shiftwidth=4
