@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")/../"
+
+
+install-conf () {
+    OLIVER=$PWD
+    (
+        cd $HOME
+        ln -s $OLIVER/conf/gitconfig .gitconfig
+    )
+}
+
+
+install-all () {
+    install conf
+}
+
+
+install () {
+    for arg in $@; do
+        echo "# vim: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@

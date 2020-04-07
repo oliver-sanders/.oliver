@@ -1,0 +1,9 @@
+[user]
+    name = Oliver Sanders
+    #email = oliver.sanders.email@googlemail.com
+    email = oliver.sanders@metoffice.gov.uk
+[core]
+    editor = vi
+[diff]
+    tool = gvimdiff
+    prompt = false
