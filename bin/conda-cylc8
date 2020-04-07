@@ -27,6 +27,7 @@ CONDA=(\
     nodejs
     configurable-http-proxy
     pygraphviz
+    yarn
 )
 
 echo '# installing conda packages'
@@ -49,14 +50,14 @@ for module in ${PIP[@]}; do
     fi
 done
 
-NPM=(\
+NODE=(\
     cylc-ui
 )
 
-echo '# installing npm packages'
-for module in ${NPM[@]}; do
+echo '# installing node packages'
+for module in ${NODE[@]}; do
     module_dir="${HOME}/${module}"
     if [[ -d "${module_dir}" ]]; then
-        (cd "${HOME}/${module}"; npm install)
+        (cd "${HOME}/${module}"; yarn install)
     fi
 done
