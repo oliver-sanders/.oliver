@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+
+PATTERN="$1"
+
+
+vi -p $(git grep --name-only "${PATTERN}")
