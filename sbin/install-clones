@@ -10,7 +10,7 @@ USER='oliver-sanders'
 CYLC_REPOS=(\
     cylc-admin
     cylc-examples
-    cylc
+    cylc-flow
     cylc-graphic-design
     cylc-sphinx-extensions
     cylc-doc
@@ -85,9 +85,6 @@ install-repo() {
     REPO_DIR="${HOME}/${REPO}"
     if ! [[ -d "${REPO_DIR}" ]]; then
         git clone "git@github.com:${USER}/${REPO}.git" "${REPO_DIR}"
-    fi
-    if [[ "$REPO" == 'cylc' ]]; then
-        REPO=cylc-flow
     fi
     set-upstream "${REPO}"
     set-remotes "${REPO}"
