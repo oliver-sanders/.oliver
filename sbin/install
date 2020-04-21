@@ -7,6 +7,15 @@ install-bashrc () {
     fi
 }
 
+install-inputrc () {
+    if [[ ! -L "$HOME/.inputrc" ]]; then
+        (
+            cd "$HOME"
+            ln -s "$HOME/.oliver/conf/inputrc" ".inputrc"
+        )
+    fi
+}
+
 install-vim () {
     sbin/install-vim install all
 }
@@ -14,6 +23,7 @@ install-vim () {
 install-all () {
     install bashrc
     install vim
+    install inputrc
 }
 
 install () {
