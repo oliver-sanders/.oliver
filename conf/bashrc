@@ -5,7 +5,10 @@ EDITOR=vi
 # PATH
 PATH="${HOME}/bin:${HOME}/.oliver/bin:${PATH}"
 if [[ "$OSTYPE" == darwin* ]]; then
+    # coreutils
     PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+    # gnu-sed
+    PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 fi
 
 export PATH

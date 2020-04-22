@@ -6,10 +6,22 @@ install-coreutils () {
     brew install coreutils
 }
 
+install-extrautils () {
+    brew install gnu-sed
+}
+
+install-at () {
+    sudo launchctl load -w \
+      /System/Library/LaunchDaemons/com.apple.atrun.plist
+}
 
 install-all () {
     install coreutils
+    install extrautils
+    install at
 }
+
+
 
 install () {
     for arg in $@; do
