@@ -5,5 +5,5 @@
 [core]
     editor = vi
 [diff]
-    tool = gvimdiff
+    tool = vimdiff
     prompt = false
