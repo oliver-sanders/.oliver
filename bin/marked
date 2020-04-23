@@ -1,4 +1,4 @@
-#!/home/h06/osanders/miniconda3/envs/cylc8/bin/python
+#!/usr/bin/env python3
 """marked
     Render a markdown file in html and open it with Firefox
 
@@ -62,14 +62,17 @@ def main(markdown_filename, html_filename):
                 markdown_filename
             )
         )
-    Popen(['firefox', html_filename])
+    command = 'firefox'
+    if sys.platform == 'darwin':
+        command = 'open'
+    Popen(['open', html_filename])
 
 
 if __name__ == '__main__':
     try:
         main(
             sys.argv[1],
-            NamedTemporaryFile().name
+            NamedTemporaryFile().name + '.html'
         )
     except IndexError:
         print(__doc__)
