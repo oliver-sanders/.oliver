@@ -1,0 +1,76 @@
+#!/home/h06/osanders/miniconda3/envs/cylc8/bin/python
+"""marked
+    Render a markdown file in html and open it with Firefox
+
+Usage: marked FILE
+"""
+
+from subprocess import Popen
+import sys
+from tempfile import NamedTemporaryFile
+
+
+MARKED_SCRIPT = ' https://cdn.jsdelivr.net/npm/marked/marked.min.js'
+
+CSS = '''
+body {
+    font-family: lato, helvetica, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid rgb(200,200,200);
+}
+'''
+
+
+def generate_html(markdown_filename):
+    with open(markdown_filename, 'r') as markdown_file:
+        markdown = markdown_file.read()
+
+    return f'''
+    <html>
+        <head>
+            <style type="text/css">
+                {CSS}
+            </style>
+            <script
+                type="text/javascript"
+                src="{MARKED_SCRIPT}"
+            ></script>
+        </head>
+        <body>
+            <script type="text/javascript">
+                function run() {{
+                    document.body.innerHTML = marked({repr(markdown)});
+                }}
+
+                window.onload = run;
+            </script>
+        </body>
+    </html>
+    '''
+
+
+def main(markdown_filename, html_filename):
+    with open(html_filename, 'w+') as html_file:
+        html_file.write(
+            generate_html(
+                markdown_filename
+            )
+        )
+    Popen(['firefox', html_filename])
+
+
+if __name__ == '__main__':
+    try:
+        main(
+            sys.argv[1],
+            NamedTemporaryFile().name
+        )
+    except IndexError:
+        print(__doc__)
+        sys.exit(1)
