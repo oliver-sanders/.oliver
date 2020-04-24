@@ -21,9 +21,10 @@ fi
 
 # Includes
 includes=(
-    "${HOME}/miniconda3/etc/profile.d/conda.sh" \
+    "${HOME}/miniconda3/etc/profile.d/conda.sh"
+    "${HOME}/.git-completion.bash"
 )
-for include in ${includes}; do
+for include in "${includes[@]}"; do
     if [[ -f "${include}" ]]; then
         . "${include}"
     fi
