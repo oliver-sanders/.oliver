@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -eu
+
+usage () {
+    echo 'qsync HOST [DIR]'
+    exit 1
+}
+
+if [[ $# == 0 ]]; then
+    usage
+fi
+for arg in "$@"; do
+    case "$arg" in
+        -h|--help)
+            usage
+            break
+            ;;
+    esac
+done
+
+
+HOST="$1"
+if [[ $# -eq 2 ]]; then
+    SRC="$HOME/$2"
+else
+    SRC="$PWD"
+fi
+REL_PATH="$(realpath "${SRC}" --relative-to "${HOME}")"
+DEST="${HOST}:${REL_PATH}"
+
+sync () {
+    rsync -av --progress --delete-after \
+        --exclude '.git' \
+        --exclude '.pyc' \
+        --exclude '.swp' \
+        --exclude '__pycache__' \
+        "${SRC}/" "${DEST}"
+}
+
+setup-pip () {
+    ssh "${HOST}" pip install -e '${HOME}'"/${REL_PATH}[all]"
+}
+
+wrap () {
+    tput bold
+    echo "$@"
+    tput sgr 0
+    tput setaf 6
+    $@
+    tput sgr 0
+}
+
+while read -p "Sync $SRC -> ${DEST} [y/n] (n)? " usr; do
+    case "${usr}" in
+        [yY])
+            wrap sync "${SRC}" "${DEST}"
+            break
+            ;;
+        [nN])
+            exit 1
+            break
+            ;;
+    esac
+done
