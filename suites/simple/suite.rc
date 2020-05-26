@@ -1,0 +1,22 @@
+#!Jinja2
+
+[scheduling]
+    cycling mode = integer
+    initial cycle point = 1
+    [[dependencies]]
+        P1 = """
+            a => b => c
+            b => d
+            b[-P1] => b
+        """
+
+[runtime]
+{% if not sleep_time is defined %}
+    [[root]]
+        script = sleep 2
+    [[b]]
+        script = sleep 4
+{% else %}
+    [[root]]
+        script = sleep {{sleep_time}}
+{% endif %}

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -eu
+
+SUITES_DIR="${HOME}/.oliver/suites/"
+
+usage () {
+    echo 'usage: suite NAME [REG]'
+    echo
+    echo 'Available Suites:'
+    ls -1 "${SUITES_DIR}"
+}
+
+if [[ $# -eq 0 ]]; then
+    usage
+    exit 1
+fi
+
+NAME="$1"
+ORIG="${SUITES_DIR}/${NAME}"
+DEST="${HOME}/cylc-run/${2:-$1}"
+
+if ! [[ -d "${ORIG}" ]]; then
+    usage
+    exit 1
+fi
+
+if [[ -d "${DEST}" ]]; then
+    rm -r "${DEST}"
+fi
+
+cp -r "${ORIG}" "${DEST}"

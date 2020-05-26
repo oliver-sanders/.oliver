@@ -1,14 +1,3 @@
-#!/usr/bin/env bash
-
-set -eu
-
-SUITE_DIR="${HOME}/cylc-run/${1:-generic}"
-
-if [[ -d "${SUITE_DIR}" ]]; then
-    rm -r "${SUITE_DIR}"
-fi
-mkdir -p "${SUITE_DIR}"
-cat > "${SUITE_DIR}/suite.rc" <<__HERE__
 [cylc]
     UTC mode = True
 
@@ -34,4 +23,3 @@ cat > "${SUITE_DIR}/suite.rc" <<__HERE__
         inherit = FOO
     [[bar, bool, pub]]
         inherit = BAR
-__HERE__
