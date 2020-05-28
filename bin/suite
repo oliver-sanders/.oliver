@@ -20,6 +20,11 @@ NAME="$1"
 ORIG="${SUITES_DIR}/${NAME}"
 DEST="${HOME}/cylc-run/${2:-$1}"
 
+if [[ "$NAME" == 'rm' ]]; then
+    rm -r "$DEST"
+    exit 0
+fi
+
 if ! [[ -d "${ORIG}" ]]; then
     usage
     exit 1

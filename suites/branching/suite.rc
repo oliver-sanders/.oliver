@@ -1,0 +1,17 @@
+[scheduling]
+    cycling mode = integer
+    initial cycle point = 1
+    [[dependencies]]
+        P1 = """
+            sleepy[-P1] => flaky
+            flaky:succeed => happy
+            flaky:fail => grumpy
+            happy | grumpy => sleepy
+        """
+[runtime]
+    [[sleepy]]
+        script = sleep 1
+    [[sleepy]]
+        script = sleep 3
+    [[flaky]]
+        script = exit $(( RANDOM % 2 ))
