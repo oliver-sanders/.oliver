@@ -33,5 +33,5 @@ done
 # Aliases
 alias cleat=clear
 alias clyc=cylc
-alias ctb="${HOME}/cylc/etc/bin/run-functional-tests.sh"
+alias ctb="${HOME}/cylc/etc/bin/run-functional-tests"
 alias gut=git
