@@ -1,0 +1,9 @@
+[scheduling]
+    cycling mode = integer
+    initial cycle point = 1
+    [[graph]]
+        P1 = a[-P1] => a
+
+[runtime]
+    [[a]]
+        script = sleep 1
