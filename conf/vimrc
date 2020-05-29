@@ -40,7 +40,8 @@ set tabpagemax=1000
 " plugins - Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
-Plugin 'vim-syntastic/syntastic'
+"Plugin 'vim-syntastic/syntastic'
+Plugin 'dense-analysis/ale'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -62,3 +63,7 @@ colors deus  " note there is airline-deus integration
 " plugin:nerdcommenter
 let g:NERDCustomDelimiters = {'cylc': {'left': '# ', 'leftAlt': '#'}}
 let g:NERDDefaultAlign = 'left'
+
+" plugin:ale
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_python_flake8_executable = '/Users/oliver/miniconda3/envs/cylc8/bin/flake8'
