@@ -12,7 +12,11 @@ install-vundle () {
 }
 
 install-vimrc () {
-    cp conf/vimrc "$HOME/.vimrc"
+    (
+        cd "$HOME"
+        rm '.vimrc'
+        ln -s '.oliver/conf/vimrc' '.vimrc'
+    )
 }
 
 install-packages () {
