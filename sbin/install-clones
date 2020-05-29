@@ -86,6 +86,12 @@ install-repo() {
     if ! [[ -d "${REPO_DIR}" ]]; then
         git clone "git@github.com:${USER}/${REPO}.git" "${REPO_DIR}"
     fi
+    configure-repo "$REPO"
+}
+
+
+configure-repo() {
+    REPO="$1"
     set-upstream "${REPO}"
     set-remotes "${REPO}"
 }
