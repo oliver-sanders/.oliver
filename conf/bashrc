@@ -15,7 +15,12 @@ export PATH
 
 # PS1
 if [[ $- == *i* ]]; then
-    PS1="\[$(tput bold; tput setab 4; tput setaf 7)\][\W] \$\[$(tput sgr 0)\] "
+    if [[ ${HOME_HOST:-} == $(hostname) ]]; then
+        PREFIX='\W'
+    else
+        PREFIX='\u@\h \W'
+    fi
+    PS1="\[$(tput bold; tput setab 4; tput setaf 7)\][$PREFIX] \$\[$(tput sgr 0)\] "
     export PS1
 fi
 
@@ -31,7 +36,10 @@ for include in "${includes[@]}"; do
 done
 
 # Aliases
-alias cleat=clear
-alias clyc=cylc
+alias cleat='clear'
+alias clyc='cylc'
 alias ctb="${HOME}/cylc/etc/bin/run-functional-tests"
-alias gut=git
+alias diff='diff --unified'
+alias gut='git'
+alias grep='grep --color=always'
+alias more='less'

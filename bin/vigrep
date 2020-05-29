@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
 
+usage () {
+    echo 'usage: vigrep PATTERN'
+    echo
+    echo 'shorthand for vi -p $(git grep --name-only $PATTERN)'
+}
+
+
+if ! [[ $# -eq 1 ]]; then
+    usage
+fi
+
+
 PATTERN="$1"
 
 
