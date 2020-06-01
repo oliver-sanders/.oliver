@@ -15,7 +15,7 @@ export PATH
 
 # PS1
 if [[ $- == *i* ]]; then
-    if [[ ${HOME_HOST:-$HOSTNAME} == "$HOSTNAME" ]]; then
+    if [[ ${HOME_HOST:-} == "$HOSTNAME" ]]; then
         PREFIX='\W'
     else
         PREFIX='\u@\h \W'
