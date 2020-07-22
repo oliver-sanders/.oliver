@@ -10,6 +10,8 @@ if [[ $# -ne 1 ]]; then
     exit
 fi
 
+# NOTE: doesn't use set -eu because conda doesn't like it
+
 NAME="$1"
 
 # use the conda-forge channels
@@ -19,8 +21,6 @@ conda config --set channel_priority strict
 # (re)create and activate the environment
 conda create -n "${NAME}"
 conda activate "${NAME}"
-
-set -eu
 
 CONDA=(\
     python==3.7
