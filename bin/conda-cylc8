@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
 . "${HOME}/miniconda3/etc/profile.d/conda.sh"
 
 if [[ $# -ne 1 ]]; then
@@ -31,6 +32,7 @@ CONDA=(\
 )
 
 echo '# installing conda packages'
+# shellcheck disable=SC2068
 conda install ${CONDA[@]}
 
 PIP=(\
@@ -43,10 +45,10 @@ PIP=(\
 )
 
 echo '# installing pip packages'
-for module in ${PIP[@]}; do
+for module in "${PIP[@]}"; do
     module_dir="${HOME}/${module}"
     if [[ -d "${module_dir}" ]]; then
-        (cd "${module_dir}"; pip install -e .[all])
+        (cd "${module_dir}"; pip install -e '.[all]')
     fi
 done
 
@@ -55,7 +57,7 @@ NODE=(\
 )
 
 echo '# installing node packages'
-for module in ${NODE[@]}; do
+for module in "${NODE[@]}"; do
     module_dir="${HOME}/${module}"
     if [[ -d "${module_dir}" ]]; then
         (cd "${HOME}/${module}"; yarn install)
