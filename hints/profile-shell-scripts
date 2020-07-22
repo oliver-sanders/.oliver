@@ -1,0 +1,2 @@
+export PS4='+ $(date "+%s.%N")   '
+set -x
