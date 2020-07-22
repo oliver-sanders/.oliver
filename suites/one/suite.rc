@@ -1,0 +1,5 @@
+[scheduling]
+    initial cycle point = 1
+    cycling mode = integer
+    [[graph]]
+        R1 = foo
