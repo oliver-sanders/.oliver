@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")/../"
+
+install-curl () {
+    sudo apt-get install curl
+}
+
+install-git () {
+    sudo apt-get install git
+}
+
+install-all () {
+    install curl
+    install git
+}
+
+install () {
+    for arg in $@; do
+        echo "# conda: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@
