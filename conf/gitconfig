@@ -2,8 +2,12 @@
     name = Oliver Sanders
     #email = oliver.sanders.email@googlemail.com
     email = oliver.sanders@metoffice.gov.uk
+	signingkey = A839611D
 [core]
     editor = vi
+	pager = less -F -X
 [diff]
     tool = vimdiff
     prompt = false
+[gpg]
+	program = gpg
