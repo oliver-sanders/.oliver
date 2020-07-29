@@ -8,6 +8,7 @@ USER='oliver-sanders'
 
 
 CYLC_REPOS=(\
+    cylc.github.io
     cylc-admin
     cylc-examples
     cylc-flow
@@ -92,6 +93,7 @@ install-repo() {
 
 configure-repo() {
     REPO="$1"
+    git -C "${HOME}/${REPO}" init  # pick up changes to templatedir
     set-upstream "${REPO}"
     set-remotes "${REPO}"
 }

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if git diff --cached | grep ' ' >/dev/null; then
+    tput setaf 4
+    echo 'Non-breaking spaces found in the following files'
+    tput sgr 0
+
+    git grep --name-only ' '
+
+    tput setaf 4
+    echo 'sed -i "s/ / /" $(git grep --name-only " "); git add -u; git commit --amend'
+    tput sgr 0
+
+fi

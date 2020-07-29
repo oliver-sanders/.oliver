@@ -11,3 +11,5 @@
     prompt = false
 [gpg]
 	program = gpg
+[init]
+    templatedir=~/.oliver/git/templatedir
