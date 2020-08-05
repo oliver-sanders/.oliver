@@ -8,16 +8,17 @@ USER='oliver-sanders'
 
 
 CYLC_REPOS=(\
-    cylc.github.io
     cylc-admin
+    cylc-dev-tools
+    cylc-doc
     cylc-examples
     cylc-flow
     cylc-graphic-design
     cylc-sphinx-extensions
-    cylc-doc
     cylc-ui
     cylc-uiserver
     cylc-xtriggers
+    cylc.github.io
     isodatetime
     presentations
     rose
