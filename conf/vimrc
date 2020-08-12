@@ -52,6 +52,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ajmwagar/vim-deus'
 Plugin 'posva/vim-vue'
 Plugin 'preservim/nerdcommenter'
+Plugin 'Rykka/riv.vim'
 
 " plugin:airline
 set noshowmode
