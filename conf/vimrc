@@ -9,6 +9,7 @@ autocmd BufRead,BufNewFile *.vue set filetype=vue
 autocmd BufRead,BufNewFile *suite.rc set filetype=cylc
 
 syntax on
+set noswapfile
 set hlsearch
 set expandtab
 set softtabstop=4
@@ -69,6 +70,6 @@ let g:NERDDefaultAlign = 'left'
 
 " plugin:ale
 if has('timers')
-    let g:ale_linters = {'python': ['flake8']}
+    let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
     let g:ale_python_flake8_executable = '/Users/oliver/miniconda3/envs/cylc8/bin/flake8'
 endif
