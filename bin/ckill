@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for suite in $(cylc scan -t name --colour=never); do
+    cylc stop --kill "$suite";
+done
