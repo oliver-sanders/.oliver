@@ -24,7 +24,7 @@ conda activate "${NAME}"
 
 CONDA=(\
     python==3.7
-    pyzmq==18.0.*
+    pyzmq==19.0.*
     nodejs
     configurable-http-proxy
     pygraphviz
