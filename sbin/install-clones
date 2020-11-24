@@ -21,6 +21,7 @@ CYLC_REPOS=(\
     cylc.github.io
     isodatetime
     presentations
+    release-actions
     rose
 )
 
