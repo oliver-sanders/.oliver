@@ -10,19 +10,26 @@ usage () {
 if [[ $# == 0 ]]; then
     usage
 fi
+pia=false
+args=()
 for arg in "$@"; do
     case "$arg" in
         -h|--help)
             usage
-            break
+            ;;
+        --pia)
+            pia=true
+            ;;
+        *)
+            args+=("$arg")
             ;;
     esac
 done
 
 
-HOST="$1"
-if [[ $# -eq 2 ]]; then
-    SRC="$HOME/$2"
+HOST="${args[0]}"
+if [[ "${#args}" -eq 2 ]]; then
+    SRC="$HOME/${args[1]}"
 else
     SRC="$PWD"
 fi
@@ -38,7 +45,7 @@ sync () {
         "${SRC}/" "${DEST}"
 }
 
-setup-pip () {
+pip-install () {
     ssh "${HOST}" pip install -e '${HOME}'"/${REL_PATH}[all]"
 }
 
@@ -63,3 +70,7 @@ while read -p "Sync $SRC -> ${DEST} [y/n] (n)? " usr; do
             ;;
     esac
 done
+
+if $pia; then
+    wrap pip-install -e
+fi
