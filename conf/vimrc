@@ -7,6 +7,8 @@ set cursorcolumn
 filetype plugin on
 autocmd BufRead,BufNewFile *.vue set filetype=vue
 autocmd BufRead,BufNewFile *suite.rc set filetype=cylc
+autocmd BufRead,BufNewFile *.cylc set filetype=cylc
+autocmd BufRead,BufNewFile *.t set filetype=bash
 
 syntax on
 set noswapfile
