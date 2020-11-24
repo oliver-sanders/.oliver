@@ -4,7 +4,7 @@
     email = oliver.sanders@metoffice.gov.uk
 	signingkey = A839611D
 [core]
-    editor = vi
+    editor = vi -f
 	pager = less -F -X
 [diff]
     tool = vimdiff
