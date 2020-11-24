@@ -4,10 +4,18 @@ cd "$(dirname "$0")/../"
 
 install-conf () {
     OLIVER=$PWD
-    (
-        cd $HOME
-        ln -s $OLIVER/conf/gitconfig .gitconfig
-    )
+    OLIVER_CONF="$OLIVER/conf/gitconfig"
+    LOCAL_CONF="$HOME/.gitconfig"
+    if [[ -L "${LOCAL_CONF}" ]]; then
+        # remove any old symlinked confs
+        rm "${LOCAL_CONF}"
+    fi
+    touch "$LOCAL_CONF"
+    cat >> "$LOCAL_CONF" << __HERE__
+
+[include]
+    path = ${OLIVER_CONF}
+__HERE__
 }
 
 install-completion () {
