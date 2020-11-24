@@ -16,4 +16,4 @@ fi
 PATTERN="$1"
 
 
-vi -p $(git grep --name-only "${PATTERN}")
+vi -p $(git grep --name-only -- "${PATTERN}")
