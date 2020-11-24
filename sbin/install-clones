@@ -7,7 +7,7 @@ set -eu
 USER='oliver-sanders'
 
 
-CYLC_REPOS=(\
+CYLC_REPOS=(
     cylc-admin
     cylc-dev-tools
     cylc-doc
@@ -26,14 +26,21 @@ CYLC_REPOS=(\
 )
 
 
-UPSTREAMS=(\
+METOMI_REPOS=(
+    exvcylc-monitor
+    metomi-mo
+    metomi-docs
+)
+
+
+UPSTREAMS=(
     cylc
     metomi
 )
 
 
 declare -A USERS
-USERS=(\
+USERS=(
     [mel]=datamel
     [dave]=dpmatthews
     [david]=dwsutherland
@@ -45,20 +52,39 @@ USERS=(\
 
 
 set-upstream () {
-    REPO="$1"
-    REPO_DIR="${HOME}/${REPO}"
+    local REPO="$1"
+    local REPO_DIR="${HOME}/${REPO}"
+    local set_upstream=''
+
+    # configure upstream
     if git -C "${REPO_DIR}" remote -v | grep -q upstream; then
         return  # upstream already set -> skip
     fi
-    for upstream in "${UPSTREAMS[@]}"; do
-        if curl --fail "https://github.com/${upstream}/${REPO}" >/dev/null 2>&1;
-        then
-            git -C "${REPO_DIR}" remote add \
-                upstream \
-                "git@github.com:${upstream}/${REPO}.git"
-            return
+
+    # handle private repos
+    for metomi_repo in "${METOMI_REPOS[@]}"; do
+        if [[ "$repo" == "$metomi_repo" ]]; then
+            set_upstream=MetOffice
+            break
         fi
     done
+
+    # scan available upstreams
+    if [[ -n "$set_upstream" ]]; then
+        for upstream in "${UPSTREAMS[@]}"; do
+            if curl --fail "https://github.com/${upstream}/${REPO}" >/dev/null 2>&1;
+            then
+                set_upstream="$upstream"
+                break
+            fi
+        done
+    fi
+
+    if [[ -n "$set_upstream" ]]; then
+        git -C "${REPO_DIR}" remote add \
+            upstream \
+            "git@github.com:${set_upstream}/${REPO}.git"
+    fi
 }
 
 
@@ -78,6 +104,13 @@ set-remotes () {
 
 install-cylc () {
     for repo in "${CYLC_REPOS[@]}"; do
+        install-repo "$repo"
+    done
+}
+
+
+install-metomi () {
+    for repo in "${METOMI_REPOS[@]}"; do
         install-repo "$repo"
     done 
 }
@@ -103,6 +136,7 @@ configure-repo() {
 
 install-all () {
     install cylc
+    install metomi
 }
 
 install () {
