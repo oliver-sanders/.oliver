@@ -43,9 +43,10 @@ if [[ $- == *i* ]]; then
     alias clyc='cylc'
     alias ctb="${HOME}/cylc/etc/bin/run-functional-tests"
     alias diff='diff --unified'
-    alias gut='git'
     alias grep='grep --color=always'
+    alias gut='git'
     alias more='less'
     alias pia='pip install -e .[all]'
+    alias rtb="${HOME}/rose/etc/bin/rose-test-battery"
     alias swarm="${HOME}/cylc/etc/bin/swarm"
 fi
