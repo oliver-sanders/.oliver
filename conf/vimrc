@@ -73,6 +73,7 @@ let g:NERDDefaultAlign = 'left'
 
 " plugin:ale
 if has('timers')
-    let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
+    let g:ale_linters = {'python': ['flake8', 'mypy'], 'javascript': ['eslint']}
     let g:ale_python_flake8_executable = '/Users/oliver/miniconda3/envs/cylc8/bin/flake8'
+    let g:ale_python_mypy_executable = '/Users/oliver/miniconda3/envs/cylc8/bin/mypy'
 endif

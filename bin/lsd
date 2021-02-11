@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -eu
+
+args=()
+cmd=(cat)
+prefix='#'
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -prefix)
+            prefix="$2"
+            shift
+            shift
+            ;;
+        -head)
+            cmd=(head -n "$2")
+            shift
+            shift
+            ;;
+        *)
+            args+=("$1")
+            shift
+            ;;
+    esac
+done
+
+if [[ ${#args[@]} == 0 ]]; then
+    args+=('.')
+fi
+
+find \
+    "${args[@]}" \
+    -type file \
+    -exec echo -e "${prefix} {}" \; \
+    -exec "${cmd[@]}" '{}' \; \
+    -exec echo \;
