@@ -30,7 +30,7 @@ fi
 
 find \
     "${args[@]}" \
-    -type file \
+    -type f \
     -exec echo -e "${prefix} {}" \; \
     -exec "${cmd[@]}" '{}' \; \
     -exec echo \;
