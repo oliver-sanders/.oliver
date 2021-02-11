@@ -28,9 +28,10 @@ if [[ ${#args[@]} == 0 ]]; then
     args+=('.')
 fi
 
+set -x
 find \
     "${args[@]}" \
-    -type file \
+    -type f \
     -exec echo -e "${prefix} {}" \; \
     -exec "${cmd[@]}" '{}' \; \
     -exec echo \;
