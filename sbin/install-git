@@ -32,7 +32,7 @@ install-all () {
 
 install () {
     for arg in $@; do
-        echo "# vim: install - ${arg}"
+        echo "# git: install - ${arg}"
         "install-${arg}"
     done
 }
