@@ -19,9 +19,21 @@ install-all () {
     install coreutils
     install extrautils
     install at
+    install keybindings
 }
 
-
+install-keybindings () {
+    cat <<'__HERE__'
+copy the following:
+    {
+    "~ " = ("insertText:", " ");
+    }
+into:
+    ~/Library/KeyBindings/DefaultKeyBinding.dict
+to disable non-breaking spaces, see:
+    https://superuser.com/questions/78245/how-to-disable-the-option-space-key-combination-for-non-breaking-spaces
+__HERE__
+}
 
 install () {
     for arg in $@; do

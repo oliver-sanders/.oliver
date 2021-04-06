@@ -1,3 +1,5 @@
+[scheduler]
+    allow implicit tasks = true
 [scheduling]
     initial cycle point = 1
     cycling mode = integer

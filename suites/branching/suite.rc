@@ -15,3 +15,4 @@
         script = sleep 3
     [[flaky]]
         script = if [[ $(( RANDOM % 2 )) -eq 1 ]]; then exit 1; fi
+    [[happy, grumpy]]

@@ -45,7 +45,7 @@ if [[ $- == *i* ]]; then
     alias diff='diff --unified'
     alias grep='grep --color=always'
     alias gut='git'
-    alias more='less'
+    alias more='less -r'
     alias pia='pip install -e .[all]'
     alias rtb="${HOME}/rose/etc/bin/rose-test-battery"
     alias swarm="${HOME}/cylc/etc/bin/swarm"
