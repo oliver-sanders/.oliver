@@ -1,5 +1,6 @@
-[cylc]
+[scheduler]
     UTC mode = True
+    allow implicit tasks = True
 
 [scheduling]
     initial cycle point = 2019-12-09T09:00Z
@@ -23,4 +24,3 @@
         inherit = FOO
     [[bar, bool, pub]]
         inherit = BAR
-    [[cycle_end, wipe_bar]]
