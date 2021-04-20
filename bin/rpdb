@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+on () {
+    PYTHONBREAKPOINT=remote_pdb.set_trace
+    REMOTE_PDB_HOST=0.0.0.0
+    REMOTE_PDB_PORT=4444 
+    export PYTHONBREAKPOINT REMOTE_PDB_HOST REMOTE_PDB_PORT
+}
+
+off () {
+    PYTHONBREAKPOINT=
+    REMOTE_PDB_HOST=
+    REMOTE_PDB_PORT=
+    export PYTHONBREAKPOINT REMOTE_PDB_HOST REMOTE_PDB_PORT
+}
+
+conn () {
+    nc -C "$REMOTE_PDB_HOST" "$REMOTE_PDB_PORT"
+}
+
+usage () {
+    echo 'source rpdb {on,off}'
+    echo 'rpdb {conn}'
+}
+
+if [[ $1 == 'on' ]]; then
+    on
+fi
+
+case "$1" in
+    on|off|conn)
+        "$1" "$@"
+        ;;
+    *|help|--help|-h)
+        usage
+        ;;
+esac
+
+
