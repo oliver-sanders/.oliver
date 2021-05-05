@@ -25,7 +25,7 @@ conda activate "${NAME}"
 
 CONDA=(
     python="$PY_VERSION"
-    pyzmq==19.0.*
+    # pyzmq==19.0.*
     nodejs
     configurable-http-proxy
     graphviz
@@ -39,6 +39,7 @@ conda install ${CONDA[@]}
 
 # cylc-xtriggers
 PIP=(
+    # functional things
     isodatetime
     rose
     cylc-flow
@@ -46,6 +47,11 @@ PIP=(
     cylc-doc
     cylc-uiserver
     cylc-rose
+    # nice to have
+    black
+    pipdeptree
+    remote_pdb
+    memory-profiler
 )
 
 echo '# installing pip packages'
