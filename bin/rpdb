@@ -3,7 +3,7 @@
 on () {
     PYTHONBREAKPOINT=remote_pdb.set_trace
     REMOTE_PDB_HOST=0.0.0.0
-    REMOTE_PDB_PORT=4444 
+    REMOTE_PDB_PORT=${2:-4444}
     export PYTHONBREAKPOINT REMOTE_PDB_HOST REMOTE_PDB_PORT
 }
 
@@ -19,13 +19,9 @@ conn () {
 }
 
 usage () {
-    echo 'source rpdb {on,off}'
+    echo 'source rpdb {on,off} [port]'
     echo 'rpdb {conn}'
 }
-
-if [[ $1 == 'on' ]]; then
-    on
-fi
 
 case "$1" in
     on|off|conn)
@@ -35,5 +31,3 @@ case "$1" in
         usage
         ;;
 esac
-
-
