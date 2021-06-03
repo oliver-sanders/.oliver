@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # shellcheck disable=SC1090
-. "${HOME}/miniconda3/etc/profile.d/conda.sh"
+. "${HOME}/mambaforge/etc/profile.d/conda.sh"
 
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo 'usage: c8 ENV_NAME PY_VERSION'
@@ -15,10 +15,6 @@ fi
 NAME="$1"
 PY_VERSION="${2:-3.7}"
 
-# use the conda-forge channels
-conda config --add channels conda-forge
-conda config --set channel_priority strict 
-
 # (re)create and activate the environment
 conda create -n "${NAME}"
 conda activate "${NAME}"
@@ -26,6 +22,7 @@ conda activate "${NAME}"
 CONDA=(
     python="$PY_VERSION"
     # pyzmq==19.0.*
+    'pyuv>=1.4.0,<1.5.0'
     nodejs
     configurable-http-proxy
     graphviz
@@ -35,19 +32,21 @@ CONDA=(
 
 echo '# installing conda packages'
 # shellcheck disable=SC2068
-conda install ${CONDA[@]}
+mamba install ${CONDA[@]}
 
 # cylc-xtriggers
-PIP=(
-    # functional things
+PIP_REPOS=(
     isodatetime
     rose
     cylc-flow
     cylc-sphinx-extensions
     cylc-doc
+    jupyter_server
     cylc-uiserver
     cylc-rose
-    # nice to have
+)
+
+PIP=(
     black
     pipdeptree
     remote_pdb
@@ -55,12 +54,13 @@ PIP=(
 )
 
 echo '# installing pip packages'
-for module in "${PIP[@]}"; do
+for module in "${PIP_REPOS[@]}"; do
     module_dir="${HOME}/${module}"
     if [[ -d "${module_dir}" ]]; then
         (cd "${module_dir}"; pip install -e '.[all]')
     fi
 done
+pip install "${PIP[@]}"
 
 YARN=(\
     cylc-ui
