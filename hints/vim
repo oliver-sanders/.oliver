@@ -1,0 +1,19 @@
+Quickfix
+    :copen  open
+    :ccl    close
+    :cp     prev
+    :cn     next
+    :cfirst first
+    :clast  last
+    :grep   grep
+    :make   make
+
+Location Lists
+    :lopen  open
+    :lcl    close
+    :lprev  prev
+    :lnext  next
+    :lfirst first
+    :llast  last
+    :lgrep  grep
+    :lmake  make
