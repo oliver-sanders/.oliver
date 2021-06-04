@@ -1,0 +1,10 @@
+[scheduling]
+    initial cycle point = previous(T-00) -PT1H
+    max active cycle points = 3
+    [[dependencies]]
+        [[[T-00]]]
+            graph = """
+                @wall_clock => a => b => c
+                x => b => d
+                c & d => e
+            """
