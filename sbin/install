@@ -20,10 +20,26 @@ install-vim () {
     sbin/install-vim install all
 }
 
+install-git () {
+    sbin/install-git install all
+}
+
+install-clones () {
+    sbin/install-clones install all
+}
+
+install-conda () {
+    sbin/install-conda install all
+}
+
 install-all () {
     install bashrc
-    install vim
     install inputrc
+    install git
+    install clones
+    install conda
+    install vim
+
 }
 
 install () {

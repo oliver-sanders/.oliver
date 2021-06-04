@@ -1,0 +1,14 @@
+name: mo
+channels:
+  - conda-forge
+dependencies:
+  - aiofiles
+  - pandas
+  - pygments
+  - python=3.7
+  - requests
+  - requests-kerberos
+  - pip
+  - pip:
+    - graphqlclient
+    - pyPdf

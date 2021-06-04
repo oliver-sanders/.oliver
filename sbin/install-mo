@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")/../"
+
+install-envs () {
+    mamba env remove -n mo
+    mamba env create -n mo -f "$HOME/.oliver/env/mo.yml"
+}
+
+
+install-all () {
+    install envs
+}
+
+install () {
+    for arg in $@; do
+        echo "# vim: install - ${arg}"
+        "install-${arg}"
+    done
+}
+
+$@

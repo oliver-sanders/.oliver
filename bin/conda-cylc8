@@ -54,7 +54,10 @@ get_env_file () {
     echo "  - pip" >> "$TMPFILE"
     echo "  - pip:" >> "$TMPFILE"
     for repo in "${PIP_REPOS[@]}"; do
-        echo "    - -e ${HOME}/${repo}[all]" >> "$TMPFILE"
+        if ! [[ $repo == jupyter_server ]]; then
+            # NOTE: jupyter_server installation is dodge, retrofit it
+            echo "    - -e ${HOME}/${repo}[all]" >> "$TMPFILE"
+        fi
     done
     for package in "${PIP[@]}"; do
         echo "    - ${package}" >> "$TMPFILE"

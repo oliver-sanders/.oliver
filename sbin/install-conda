@@ -5,28 +5,34 @@ CONDA_DIR="${HOME}/mambaforge/"
 
 download-conda-darwin () {
     curl \
-        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh
+        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh \
         -o "$1"
 }
 
 download-conda-linux () {
     curl \
-        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh \
         -o "$1"
 }
+
+get-conda-url () {
+    if [[ "$OSTYPE" == darwin* ]]; then
+        echo 'https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh'
+    elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+        echo 'https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh'
+    else
+        echo "Cannot install Conda for $OSTYPE" >&2
+        exit 1
+    fi
+}
+
+curl -L https:////github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o here
 
 install-conda () {
     if ! [[ -d "${CONDA_DIR}" ]]; then
         CONDA_INSTALL="$(mktemp)"
-        if [[ "$OSTYPE" == darwin* ]]; then
-            download-conda-darwin "${CONDA_INSTALL}"
-        elif [[ "$OSTYPE" == "linux-gnu" ]]; then
-            download-conda-linux "${CONDA_INSTALL}"
-        else
-            echo "Cannot install Conda for $OSTYPE" >&2
-            exit 1
-        fi
-        bash "${CONDA_INSTALL}" -h
+        curl -L "$(get-conda-url)" -o "$CONDA_INSTALL"
+        bash "${CONDA_INSTALL}" -b
         rm "${CONDA_INSTALL}"
     fi
 }
