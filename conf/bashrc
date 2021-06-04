@@ -27,7 +27,7 @@ if [[ $- == *i* ]]; then
 
     # Includes
     includes=(
-        "${HOME}/miniconda3/etc/profile.d/conda.sh"
+        "${HOME}/mambaforge/etc/profile.d/conda.sh"
         "${HOME}/.git-completion.bash"
     )
     for include in "${includes[@]}"; do
@@ -49,4 +49,5 @@ if [[ $- == *i* ]]; then
     alias pia='pip install -e .[all]'
     alias rtb="${HOME}/rose/etc/bin/rose-test-battery"
     alias swarm="${HOME}/cylc/etc/bin/swarm"
+    # alias conda=mamba
 fi

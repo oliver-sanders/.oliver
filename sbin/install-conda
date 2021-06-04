@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 cd "$(dirname "$0")/../"
 
-CONDA_DIR="${HOME}/miniconda3/"
+CONDA_DIR="${HOME}/mambaforge/"
 
 download-conda-darwin () {
     curl \
-        https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh \
+        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh
         -o "$1"
 }
 
 download-conda-linux () {
     curl \
-        https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+        https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
         -o "$1"
 }
 
@@ -23,9 +23,10 @@ install-conda () {
         elif [[ "$OSTYPE" == "linux-gnu" ]]; then
             download-conda-linux "${CONDA_INSTALL}"
         else
-            exit "Cannot install Conda for $OSTYPE"
+            echo "Cannot install Conda for $OSTYPE" >&2
+            exit 1
         fi
-        bash "${CONDA_INSTALL}" -b -p "${CONDA_DIR}"
+        bash "${CONDA_INSTALL}" -h
         rm "${CONDA_INSTALL}"
     fi
 }

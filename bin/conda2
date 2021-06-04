@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-. ${HOME}/miniconda2/etc/profile.d/conda.sh

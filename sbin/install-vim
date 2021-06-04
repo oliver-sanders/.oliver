@@ -23,10 +23,16 @@ install-packages () {
     vim +BundleInstall +qall
 }
 
+install-conda-env () {
+    mamba env remove -n vim
+    mamba env create -n vim -f "$HOME/.oliver/env/vim.yml"
+}
+
 install-all () {
     install vundle
     install vimrc
     install packages
+    install conda-env
 }
 
 install () {

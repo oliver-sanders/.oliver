@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-vi -p $(git diff --name-only master)
+BRANCH=${1:-master}
+vi -p $(git diff --name-only "$BRANCH")

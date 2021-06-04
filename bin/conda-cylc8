@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # shellcheck disable=SC1090
-. "${HOME}/miniconda3/etc/profile.d/conda.sh"
+# shellcheck disable=SC1091
+. "${HOME}/mambaforge/etc/profile.d/conda.sh"
 
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo 'usage: c8 ENV_NAME PY_VERSION'
@@ -10,22 +11,14 @@ if [[ $# -eq 0 || $# -gt 2 ]]; then
     exit
 fi
 
-# NOTE: doesn't use set -eu because conda doesn't like it
+set -eu
+
 
 NAME="$1"
 PY_VERSION="${2:-3.7}"
 
-# use the conda-forge channels
-conda config --add channels conda-forge
-conda config --set channel_priority strict 
-
-# (re)create and activate the environment
-conda create -n "${NAME}"
-conda activate "${NAME}"
-
 CONDA=(
     python="$PY_VERSION"
-    # pyzmq==19.0.*
     nodejs
     configurable-http-proxy
     graphviz
@@ -33,43 +26,65 @@ CONDA=(
     yarn
 )
 
-echo '# installing conda packages'
-# shellcheck disable=SC2068
-conda install ${CONDA[@]}
-
 # cylc-xtriggers
-PIP=(
-    # functional things
+PIP_REPOS=(
     isodatetime
     rose
     cylc-flow
     cylc-sphinx-extensions
     cylc-doc
+    jupyter_server
     cylc-uiserver
     cylc-rose
-    # nice to have
+)
+
+PIP=(
     black
     pipdeptree
     remote_pdb
     memory-profiler
 )
 
-echo '# installing pip packages'
-for module in "${PIP[@]}"; do
-    module_dir="${HOME}/${module}"
-    if [[ -d "${module_dir}" ]]; then
-        (cd "${module_dir}"; pip install -e '.[all]')
-    fi
-done
+get_env_file () {
+    TMPFILE="$(mktemp).yml"
+    sed '/\w*#.*/d' "$HOME/cylc-flow/conda-environment.yml" > "$TMPFILE"
+    for output in "${CONDA[@]}"; do
+        echo "  - $output" >> "$TMPFILE"
+    done
+    echo "  - pip" >> "$TMPFILE"
+    echo "  - pip:" >> "$TMPFILE"
+    for repo in "${PIP_REPOS[@]}"; do
+        echo "    - -e ${HOME}/${repo}[all]" >> "$TMPFILE"
+    done
+    for package in "${PIP[@]}"; do
+        echo "    - ${package}" >> "$TMPFILE"
+    done
+    echo "$TMPFILE"
+}
 
-YARN=(\
-    cylc-ui
-)
+check_env () {
+    for env in $(conda env list | awk '{ print $1 }'); do
+        if [[ $NAME == "$env" ]]; then
+            echo "env $NAME exists replace (y/n)?"
+            read -r response
+            case $response in
+                [yY])
+                    conda env remove -n "$NAME"
+                    ;;
+                [nN])
+                    exit 1
+                    ;;
+                *)
+                    echo 'invalid response' >&2
+                    exit 1
+                    ;;
+            esac
+        fi
+    done
+}
 
-echo '# installing node packages'
-for module in "${YARN[@]}"; do
-    module_dir="${HOME}/${module}"
-    if [[ -d "${module_dir}" ]]; then
-        (cd "${HOME}/${module}"; yarn install)
-    fi
-done
+check_env
+env_file="$(get_env_file)"
+if ! mamba env create -n "$NAME" -f "$env_file"; then
+    cat "$env_file" >&2
+fi
